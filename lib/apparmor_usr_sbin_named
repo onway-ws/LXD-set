@@ -1,5 +1,5 @@
 #!/bin/bash
-bind9_apparmor_usr_sbin_named () {
+apparmor_usr_sbin_named () {
 lxc file pull $container/etc/apparmor.d/usr.sbin.named ./usr.sbin.named
  
 local ex1="\/usr\/sbin\/named { \n"
