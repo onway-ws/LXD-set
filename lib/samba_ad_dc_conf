@@ -4,31 +4,31 @@
 #-----------------------------------------------
 samba_ad_dc_conf () {
 lxc file pull $container/etc/samba/smb.conf ./smb.conf
- 
+
 local ex1="[global] \n"
 local ex2="        allow dns updates = nonsecure and secure \n"
 local ex3="        dns forwarder = $nsaddr \n"
 local ex4="        printing = CUPS \n"
 local ex5="        printcap name = \/dev\/null \n"
- 
+
 local ex6="        idmap config *:backend = tdb \n"
 local ex7="        idmap config *:range = 2000-9999 \n"
 local ex8="        idmap config $domain:backend = ad \n"
 local ex9="        idmap config $domain:range = 10000-29999 \n"
 local ex10="        idmap config $domain:schema_mode = rfc2307 \n"
 local ex11="        winbind nss info = rfc2307 \n"
- 
+
 ch ./smb.conf "\[global\]" "$ex1$ex2$ex3$ex4$ex5$ex6$ex7$ex8$ex9$ex10$ex11"
- 
+
 lxc exec  $container -- mkdir -p /shares/shared
- 
+
 local ex1="[shared] \n"
 local ex2="    comment = shared \n"
 local ex3="    path = \/shares\/shared \n"
 local ex4="    read only = no \n"
- 
+
 ch ./smb.conf "\[shared\]" "$ex1$ex2$ex3$ex4"
- 
+
 lxc file push --mode=644 ./smb.conf $container/etc/samba/smb.conf
 rm ./smb.conf
 }

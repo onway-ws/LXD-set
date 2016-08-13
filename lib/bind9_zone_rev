@@ -2,7 +2,7 @@
 #-----------------------------------------------
 bind9_zone_rev () {
 fdate=$(date +"%y%m%d%H%M")
- 
+
 cat <<EOF >./$tmpfile
 \$ORIGIN .
 \$TTL 864000
@@ -19,7 +19,7 @@ $rtarpa             PTR $rtname.$zone.
 $dcarpa             PTR $dcname.$zone.
                     PTR $zone.
 EOF
- 
+
 lxc file push --mode=664 ./$tmpfile       $container$farpa
 lxc exec $container chown bind:bind $farpa
 }

@@ -1,24 +1,24 @@
 #!/bin/bash
 #-----------------------------------------------
 bind9_named_conf_local () {
- 
+
 cat <<EOF >./$tmpfile
 include "/etc/bind/rndc.key";
 include "/var/lib/samba/private/named.conf";
- 
+
 zone "$zone" {
      type master;
      file "$fzone";
      allow-update { key rndc-key; };
 };
- 
+
 zone "$arpa.in-addr.arpa" {
      type master;
      file "$farpa";
      allow-update { key rndc-key; };
 };
 EOF
- 
+
 lxc file push --mode=644 ./$tmpfile $container/etc/bind/named.conf.local
 lxc exec $container chown root:bind /etc/bind/named.conf.local
 }

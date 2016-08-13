@@ -17,7 +17,7 @@ gateway=192.168.64.1
 netmask=255.255.255.0
 nameservers=8.8.8.8
 dnssearch=hd.onway.ws
- 
+
 #-----------------------------------------------
 # bind9
 #-----------------------------------------------
@@ -33,7 +33,7 @@ dcarpa=3                              # адрес в зоне arpa [3].64.168.1
 rtname=router                         # имя шлюза
 rtaddr=$gateway                       # полный ip адрес шлюза
 rtarpa=1                              # адрес в зоне arpa [1].64.168.192
- 
+
 #-----------------------------------------------
 # samba ad dc
 #-----------------------------------------------
@@ -45,6 +45,21 @@ adminpass=Qwert12
 #-----------------------------------------------
 # MAIN
 #-----------------------------------------------
-СreateСontainer
-lxd_set_acl
-Installing_samba4_bind9_dhcp
+
+lxd_container_create
+lxd_container_set_acl
+network_conf
+install_samba4_bind9_dhcp
+samba_ad_dc
+samba_ad_dc_conf
+bind9_named_conf_options
+bind9_named_conf_local
+bind9_zone
+bind9_zone_rev
+apparmor_usr_sbin_named
+dhcp_conf
+apparmor_usr_sbin_dhcpd
+nameservers=127.0.0.1
+network_conf
+
+

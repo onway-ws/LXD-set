@@ -3,11 +3,11 @@
 # Фиксация IP адреса
 #-----------------------------------------------
 network_conf () {
- 
+
 cat <<EOF > ./$tmpfile
 auto lo
 iface lo inet loopback
- 
+
 auto eth0
 iface eth0 inet static
    address $address
@@ -18,9 +18,9 @@ iface eth0 inet static
 EOF
 lxc file push --mode=644 ./$tmpfile \
 $container/etc/network/interfaces.d/50-cloud-init.cfg
- 
+
 lxc stop $container
 lxc start $container
 sleep 15
- 
+
 }

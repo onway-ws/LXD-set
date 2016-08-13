@@ -4,10 +4,10 @@
 #-----------------------------------------------
 samba_ad_dc () {
 cat <<EOF >./$tmpfile
- 
+
 rm -rf /etc/samba
 rm -rf /var/lib/samba/private/*
- 
+
 samba-tool domain provision --host-name=$hostname --realm=$realm \
 --domain=$domain --server-role='dc' --adminpass=$adminpass \
 --dns-backend=BIND9_DLZ --function-level=2008_R2 --use-rfc2307
@@ -15,10 +15,12 @@ EOF
 lxc file push --mode=700 ./$tmpfile $container/tmp/$tmpfile
 lxc exec $container /tmp/$tmpfile
 lxc exec $container rm /tmp/$tmpfile
- 
+
 lxc exec $container chgrp bind /var/lib/samba/private/dns.keytab
 lxc exec $container chmod g+r /var/lib/samba/private/dns.keytab
- 
+
 lxc exec $container -- mv /etc/krb5.conf{,.dist}
 lxc exec $container -- ln -sf /var/lib/samba/private/krb5.conf /etc/krb5.conf
+
+lxc exec $container -- net rpc rights grant "$domain\Domain Admins" SeDiskOperatorPrivilege -Uadministrator%$adminpass
 }

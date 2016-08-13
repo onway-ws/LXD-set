@@ -18,5 +18,5 @@ lxc exec $container -- apt-get install -y krb5-user
 lxc exec $container -- rndc-confgen -a
 lxc exec $container -- chown root:bind /etc/bind/rndc.key
 lxc exec $container -- chmod 640       /etc/bind/rndc.key
- 
+
 }

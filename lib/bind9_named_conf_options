@@ -5,7 +5,7 @@
 bind9_named_conf_options () {
 cat <<EOF >./$tmpfile
 acl internals { localhost; localnets; };
- 
+
 options {
         directory "/var/cache/bind";
         version "unknown";
@@ -17,14 +17,14 @@ options {
         allow-query     { internals; };
         allow-recursion { internals; };
         allow-transfer  { internals; };
- 
+
         dnssec-enable no;
         #auth-nxdomain no;
         listen-on-v6 { any; };
- 
+
         auth-nxdomain yes;
         empty-zones-enable no;
- 
+
         // Adding this Samba generated file will allow
         // for automatic DDNS updates
         tkey-gssapi-keytab "/var/lib/samba/private/dns.keytab";

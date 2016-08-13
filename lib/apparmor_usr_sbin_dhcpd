@@ -1,3 +1,4 @@
+#!/bin/bash
 apparmor_usr_sbin_dhcpd () {
 lxc file pull $container/etc/apparmor.d/usr.sbin.dhcpd ./usr.sbin.dhcpd
  
