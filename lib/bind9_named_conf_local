@@ -1,6 +1,6 @@
 #!/bin/bash
 #-----------------------------------------------
-conf_bind9_named_conf_local () {
+bind9_named_conf_local () {
  
 cat <<EOF >./$tmpfile
 include "/etc/bind/rndc.key";
