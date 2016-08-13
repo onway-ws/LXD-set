@@ -1,0 +1,33 @@
+#-----------------------------------------------
+# bind9.named.conf.options
+#-----------------------------------------------
+bind9.named.conf.options () {
+cat <<EOF >./$tmpfile
+acl internals { localhost; localnets; };
+ 
+options {
+        directory "/var/cache/bind";
+        version "unknown";
+        forwarders {
+                $gateway;
+                8.8.8.8;
+                8.8.4.4;
+        };
+        allow-query     { internals; };
+        allow-recursion { internals; };
+        allow-transfer  { internals; };
+ 
+        dnssec-enable no;
+        #auth-nxdomain no;
+        listen-on-v6 { any; };
+ 
+        auth-nxdomain yes;
+        empty-zones-enable no;
+ 
+        // Adding this Samba generated file will allow
+        // for automatic DDNS updates
+        tkey-gssapi-keytab "/var/lib/samba/private/dns.keytab";
+};
+EOF
+lxc file push --mode=644 ./$tmpfile $container/etc/bind/named.conf.options
+}
