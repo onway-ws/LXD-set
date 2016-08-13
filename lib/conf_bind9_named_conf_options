@@ -2,7 +2,7 @@
 #-----------------------------------------------
 # bind9.named.conf.options
 #-----------------------------------------------
-bind9.named.conf.options () {
+conf_bind9_named_conf_options () {
 cat <<EOF >./$tmpfile
 acl internals { localhost; localnets; };
  
