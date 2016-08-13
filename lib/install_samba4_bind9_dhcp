@@ -2,7 +2,7 @@
 #-----------------------------------------------
 # Установка пакетов
 #-----------------------------------------------
-Installing_samba4_bind9_dhcp() {
+install_samba4_bind9_dhcp() {
 
 echo Обновление пакетов
 lxc exec $container -- apt-get update
