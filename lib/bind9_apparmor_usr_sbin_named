@@ -1,0 +1,19 @@
+#!/bin/bash
+bind9_apparmor_usr_sbin_named () {
+lxc file pull $container/etc/apparmor.d/usr.sbin.named ./usr.sbin.named
+ 
+local ex1="\/usr\/sbin\/named { \n"
+local ex2="  \/var\/lib\/samba\/private\/named.conf r, \n"
+local ex3="  \/var\/lib\/samba\/private\/dns.keytab r, \n"
+local ex4="  \/var\/lib\/samba\/private\/dns\/** rwk, \n"
+local ex5="  \/var\/lib\/samba\/private\/krb5.conf r, \n"
+local ex6="  \/usr\/lib\/x86_64-linux-gnu\/samba\/** m, \n"
+local ex7="  \/usr\/lib\/x86_64-linux-gnu\/ldb\/modules\/ldb\/** m, \n"
+local ex8="  \/var\/tmp\/* rw, \n"
+local ex9="  \/dev\/urandom rw, \n"
+ 
+ch ./usr.sbin.named "\/usr\/sbin\/named {" "$ex1$ex2$ex3$ex4$ex5$ex6$ex7$ex8$ex9"
+ 
+lxc file push --mode=644 ./usr.sbin.named $container/etc/apparmor.d/usr.sbin.named
+rm ./usr.sbin.named
+}
