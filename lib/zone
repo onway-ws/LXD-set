@@ -1,0 +1,24 @@
+zone () {
+ 
+fdate=$(date +"%y%m%d%H%M")
+ 
+cat <<EOF >./$tmpfile
+\$ORIGIN .
+\$TTL 864000
+$zone             IN SOA  $nsname.$zone. admin.$zone. (
+                                $fdate ; serial
+                                28800      ; refresh (8 hours)
+                                3600       ; retry (1 hour)
+                                604800     ; expire (1 week)
+                                86400      ; minimum (1 day)
+                                )
+                        NS      $nsname.$zone.
+\$ORIGIN $zone.
+$nsname                 A       $nsaddr
+$rtname                 A       $rtaddr
+$dcname                 CNAME   $nsname
+EOF
+ 
+lxc file push --mode=664 ./$tmpfile       $container$fzone
+lxc exec $container chown bind:bind $fzone
+}
