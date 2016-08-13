@@ -2,7 +2,11 @@
 #-----------------------------------------------
 # Создать контейнер
 #-----------------------------------------------
-lxd.container () {
+lxd_container_create () {
+
+lxc stop $container
+lxc delete $container
+
 lxc launch $imagename $container
 
 #-----------------------------------------------
