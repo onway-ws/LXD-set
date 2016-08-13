@@ -1,0 +1,11 @@
+apparmor_usr_sbin_dhcpd () {
+lxc file pull $container/etc/apparmor.d/usr.sbin.dhcpd ./usr.sbin.dhcpd
+ 
+local ex1="\/usr\/sbin\/dhcpd { \n"
+local ex2="  \/etc\/bind\/rndc.key  r, \n"
+ 
+ch ./usr.sbin.dhcpd "\/usr\/sbin\/dhcpd {" "$ex1$ex2"
+ 
+lxc file push --mode=644 ./usr.sbin.dhcpd $container/etc/apparmor.d/usr.sbin.dhcpd
+rm ./usr.sbin.dhcpd
+}
