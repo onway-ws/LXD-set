@@ -1,0 +1,46 @@
+#-----------------------------------------------
+# DHCP
+#-----------------------------------------------
+ 
+dhcp_conf () {
+ 
+cat <<EOF >./$tmpfile
+ 
+ddns-updates on;
+ddns-update-style interim;
+update-static-leases on;
+authoritative;
+ 
+# This option points to the same rndc.key we create for bind9.
+include "/etc/bind/rndc.key";
+allow unknown-clients;
+use-host-decl-names on;
+default-lease-time 86400; #24  hours
+max-lease-time 86400;
+log-facility local7;
+ 
+# $zone DNS zones
+zone $zone. {
+  primary $nsaddr; # This server is the primary DNS server for the zone
+  key rndc-key;       # Use the key we defined earlier for dynamic updates
+}
+zone $arpa.in-addr.arpa. {
+  primary $nsaddr; # This server is the primary reverse DNS for the zone
+  key rndc-key;       # Use the key we defined earlier for dynamic updates
+}
+ 
+# $zone LAN range
+subnet $subnet netmask $netmask {
+  range $dhcprange ;
+  option subnet-mask $netmask;
+  option routers $rtaddr;
+  option domain-name-servers $nsaddr;
+  option domain-name "$zone";
+  option ntp-servers $nsaddr;
+  ddns-domainname "$zone.";
+  ddns-rev-domainname "in-addr.arpa.";
+}
+EOF
+ 
+lxc file push --mode=644 ./$tmpfile       $container/etc/dhcp/dhcpd.conf
+}
