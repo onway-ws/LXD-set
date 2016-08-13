@@ -2,7 +2,7 @@
 #-----------------------------------------------
 # samba.ad.dc.conf
 #-----------------------------------------------
-samba.ad.dc.conf () {
+samba_ad_dc_conf () {
 lxc file pull $container/etc/samba/smb.conf ./smb.conf
  
 local ex1="[global] \n"
