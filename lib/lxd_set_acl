@@ -1,0 +1,9 @@
+#!/bin/bash
+#-----------------------------------------------
+# set acl
+#-----------------------------------------------
+lxd_set_acl () {
+zfs set aclinherit=passthrough $zpoolname/containers/$container
+zfs set acltype=posixacl $zpoolname/containers/$container
+lxc config set $container security.privileged true
+}
