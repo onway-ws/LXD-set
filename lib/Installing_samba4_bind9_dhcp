@@ -1,0 +1,22 @@
+#!/bin/bash
+#-----------------------------------------------
+# Установка пакетов
+#-----------------------------------------------
+Installing_samba4_bind9_dhcp() {
+
+echo Обновление пакетов
+lxc exec $container -- apt-get update
+lxc exec $container -- apt-get dist-upgrade -y
+
+echo BIND9-------------------------------------------------------------------------------------------
+lxc exec $container -- apt-get install -y ntp isc-dhcp-server bind9
+echo SAMBA-------------------------------------------------------------------------------------------
+lxc exec $container -- apt-get install -y samba smbclient winbind
+
+lxc exec $container -- apt-get install -y krb5-user
+
+lxc exec $container -- rndc-confgen -a
+lxc exec $container -- chown root:bind /etc/bind/rndc.key
+lxc exec $container -- chmod 640       /etc/bind/rndc.key
+ 
+}
