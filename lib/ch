@@ -1,0 +1,18 @@
+#!/bin/bash
+#-----------------------------------------------
+# Поиск и замена
+#-----------------------------------------------
+ch () {
+#функция поиска и замены значений 
+#строка с искомым выражением заменяется целиком
+#
+#Пример
+#CHF="/etc/pgpool2/pgpool.conf"
+#ch $CHF "socket_dir" "socket_dir = '\/var\/run\/postgresql'"
+ 
+local CHFILES=$1
+local VSEARCH=$2
+local VCHANGE=$3
+sed -i -e "s/^$VSEARCH.*/$VCHANGE/g" -e "/^$VSEARCH.*/,$ b" \
+ -e "\$ a \\$VCHANGE" $CHFILES
+}
