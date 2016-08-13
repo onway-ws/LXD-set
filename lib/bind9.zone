@@ -1,4 +1,4 @@
-zone () {
+bind9.zone () {
  
 fdate=$(date +"%y%m%d%H%M")
  
