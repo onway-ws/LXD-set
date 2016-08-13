@@ -1,0 +1,25 @@
+#!/bin/bash
+#-----------------------------------------------
+bind9.zone.rev () {
+fdate=$(date +"%y%m%d%H%M")
+ 
+cat <<EOF >./$tmpfile
+\$ORIGIN .
+\$TTL 864000
+$arpa.in-addr.arpa     IN SOA  $nsname.$zone. admin.$zone. (
+                                $fdate ; serial
+                                28800      ; refresh (8 hours)
+                                3600       ; retry (1 hour)
+                                604800     ; expire (1 week)
+                                86400      ; minimum (1 day)
+                                )
+                        NS      $nsname.$zone.
+\$ORIGIN $arpa.in-addr.arpa.
+$rtarpa             PTR $rtname.$zone.
+$dcarpa             PTR $dcname.$zone.
+                    PTR $zone.
+EOF
+ 
+lxc file push --mode=664 ./$tmpfile       $container$farpa
+lxc exec $container chown bind:bind $farpa
+}
