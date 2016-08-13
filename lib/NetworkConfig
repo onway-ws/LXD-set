@@ -1,0 +1,26 @@
+#!/bin/bash
+#-----------------------------------------------
+# Фиксация IP адреса
+#-----------------------------------------------
+NetworkConfig () {
+ 
+cat <<EOF > ./$tmpfile
+auto lo
+iface lo inet loopback
+ 
+auto eth0
+iface eth0 inet static
+   address $address
+   gateway $gateway
+   netmask $netmask
+   dns-nameservers  $nameservers
+   dns-search  $dnssearch
+EOF
+lxc file push --mode=644 ./$tmpfile \
+$container/etc/network/interfaces.d/50-cloud-init.cfg
+ 
+lxc stop $container
+lxc start $container
+sleep 15
+ 
+}
