@@ -1,0 +1,17 @@
+#!/bin/bash
+#-----------------------------------------------
+# samba_mem_pam
+#-----------------------------------------------
+samba_mem_pam () {
+lxc exec $container -- pam-auth-update
+
+lxc file pull $container/etc/pam.d/common-account ./$tmpfile
+
+local ex1="# and here are more per-package modules (the \"Additional\" block) \n"
+local ex2="session optional        pam_mkhomedir.so skel=\/etc\/skel umask=0022 \n"
+
+ch ./$tmpfile "# and here are more per-package modules" "$ex1$ex2"
+
+lxc file push --mode=644 ./$tmpfile $container/etc/pam.d/common-account
+rm ./$tmpfile
+}

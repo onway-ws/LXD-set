@@ -1,0 +1,45 @@
+#!/bin/bash
+#-----------------------------------------------
+# samba_mem_conf
+#-----------------------------------------------
+
+samba_mem_conf () {
+cat <<EOF >./$tmpfile
+
+[global]
+   realm = $realm
+   workgroup = $workgroup
+   security = ADS
+   dedicated keytab file = /etc/krb5.keytab
+   kerberos method = secrets and keytab
+
+   idmap config *:backend = tdb
+   idmap config *:range = 5000-9999
+   idmap config $workgroup:backend = ad
+   idmap config $workgroup:range = 10000-29999
+   idmap config $workgroup:schema_mode = rfc2307
+
+   winbind nss info = rfc2307
+   winbind use default domain = Yes
+   winbind enum users  = Yes
+   winbind enum groups = Yes
+   winbind refresh tickets = Yes
+   winbind normalize names = Yes
+
+   store dos attributes = Yes
+
+   vfs objects = acl_xattr
+   map acl inherit = Yes
+
+
+[shared]
+   comment = shared
+   path = /shares/shared
+   read only = no
+EOF
+
+lxc file push --mode=644 ./$tmpfile $container/etc/samba/smb.conf
+rm ./$tmpfile
+lxc exec  $container -- mkdir -p /shares/shared
+}
+

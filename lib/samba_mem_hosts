@@ -1,0 +1,20 @@
+#!/bin/bash
+#-----------------------------------------------
+# samba_mem_hosts
+#-----------------------------------------------
+samba_mem_hosts () {
+cat <<EOF >./$tmpfile
+127.0.0.1 localhost
+$address $container.$dnssearch $container
+# The following lines are desirable for IPv6 capable hosts
+::1 ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+EOF
+lxc file push --mode=644 ./$tmpfile $container/etc/hosts
+rm ./$tmpfile
+}
+

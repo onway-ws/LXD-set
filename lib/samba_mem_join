@@ -1,0 +1,10 @@
+#!/bin/bash
+#-----------------------------------------------
+# samba_mem_join
+#-----------------------------------------------
+samba_mem_join () {
+lxc exec $container -- net ads join  -U administrator%$adminpass
+
+lxc stop  $container
+lxc start $container
+}

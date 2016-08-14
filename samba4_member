@@ -29,3 +29,11 @@ adminpass=Qwert12
 
 lxd_container_create
 lxd_container_set_acl
+network_conf
+samba_mem_hosts
+install_samba4_member
+samba_mem_krb5_conf
+samba_mem_conf
+samba_mem_nsswitch_conf
+samba_mem_pam
+samba_mem_join

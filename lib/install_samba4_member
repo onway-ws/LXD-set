@@ -1,0 +1,16 @@
+#!/bin/bash
+#-----------------------------------------------
+# Установка пакетов
+#-----------------------------------------------
+install_samba4_member () {
+
+echo Обновление пакетов
+lxc exec $container -- apt-get update
+lxc exec $container -- apt-get dist-upgrade -y
+
+lxc exec $container -- apt-get install -y ntp samba winbind libnss-winbind libpam-winbind
+lxc exec $container -- apt-get install -y krb5-config krb5-locales krb5-user
+#lxc exec $container -- apt-get install gvfs-backends
+
+}
+

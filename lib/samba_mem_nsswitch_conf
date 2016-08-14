@@ -1,0 +1,13 @@
+#!/bin/bash
+#-----------------------------------------------
+# samba_mem_nsswitch_conf
+#-----------------------------------------------
+samba_mem_nsswitch_conf () {
+lxc file pull $container/etc/nsswitch.conf ./$tmpfile
+
+ch ./$tmpfile "passwd:" "passwd: compat winbind"
+ch ./$tmpfile "group:"  "group:  compat winbind"
+
+lxc file push --mode=644 ./$tmpfile $container/etc/nsswitch.conf
+rm ./$tmpfile
+}
