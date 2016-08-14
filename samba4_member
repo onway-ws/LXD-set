@@ -25,3 +25,6 @@ realm=WD.HD.ONWAY.WS
 workgroup=WD
 domain=$dnssearch
 adminpass=Qwert12
+
+lxd_container_create
+lxd_container_set_acl
