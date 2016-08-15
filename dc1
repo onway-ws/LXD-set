@@ -1,6 +1,6 @@
 #!/bin/bash
 # install bind9 dhcp samba4 ad dc
-#
+# установка samba4 как контроллера домена актив директории в контейнере lxd
 
 for f in lib/* ; do . $f ; done;
 
