@@ -1,6 +1,6 @@
 #!/bin/bash
 #-----------------------------------------------
-# bind9.named.conf.options
+# bind9_named_conf_options Конфигурация named.conf.options
 #-----------------------------------------------
 bind9_named_conf_options () {
 cat <<EOF >./$tmpfile
