@@ -1,4 +1,7 @@
 #!/bin/bash
+# samba4 share server member AD DC
+# Установка Samba4 файловый сервер в домене 
+
 for f in lib/* ; do . $f ; done;
 
 #-----------------------------------------------
