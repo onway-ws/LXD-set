@@ -1,5 +1,7 @@
 #!/bin/bash
 #-----------------------------------------------
+# bind9_named_conf_local Конфигурация named.conf.local
+#-----------------------------------------------
 bind9_named_conf_local () {
 
 cat <<EOF >./$tmpfile
