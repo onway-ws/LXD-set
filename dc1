@@ -1,4 +1,7 @@
 #!/bin/bash
+# install bind9 dhcp samba4 ad dc
+# установка samba4 как контроллера домена актив директории в контейнере lxd
+
 for f in lib/* ; do . $f ; done;
 
 #-----------------------------------------------
@@ -46,20 +49,18 @@ adminpass=Qwert12
 # MAIN
 #-----------------------------------------------
 
-lxd_container_create
-lxd_container_set_acl
-network_conf
-install_samba4_bind9_dhcp
-samba_ad_dc
-samba_ad_dc_conf
-bind9_named_conf_options
-bind9_named_conf_local
-bind9_zone
-bind9_zone_rev
-apparmor_usr_sbin_named
-dhcp_conf
-apparmor_usr_sbin_dhcpd
-nameservers=127.0.0.1
-network_conf
-
-
+lxd_container_create        # Установка нового контейнера
+lxd_container_set_acl       # Включить поддержку ACL файловой системы контейнера
+network_conf                # Конфигурация фиксированного IP адреса
+install_samba4_bind9_dhcp   # Установка пакетов
+samba_ad_dc                 # Инициализация домена
+samba_ad_dc_conf            # Конфигурация [global] smb.conf
+bind9_named_conf_options    # Конфигурация named.conf.options
+bind9_named_conf_local      # Конфигурация named.conf.local
+bind9_zone                  # Конфигурация прямой зоны
+bind9_zone_rev              # Конфигурация обратной зоны
+apparmor_usr_sbin_named     #
+dhcp_conf                   # Конфигурация dhcp.conf
+apparmor_usr_sbin_dhcpd     #
+nameservers=127.0.0.1       # Замена адреса на свой nameservers
+network_conf                # Конфигурация сети но новый nameservers
