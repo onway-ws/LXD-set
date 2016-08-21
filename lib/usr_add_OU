@@ -1,0 +1,27 @@
+#!/bin/bash
+
+usr_add_OU() {
+
+OU=${1}
+local DN="${1},DC=$domain,$base"
+local DS=$(base64 <<< ${2:-"Organisational Unit"})
+
+
+cat <<EOF >$tmpfile
+dn: $DN
+changetype: add
+objectClass: top
+objectClass: organizationalUnit
+EOF
+
+usr_app || echo $DN уже существует
+
+cat <<EOF >$tmpfile
+dn: $DN
+changetype: modify
+replace: description
+description:: $DS
+EOF
+
+usr_app
+}

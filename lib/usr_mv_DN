@@ -1,0 +1,16 @@
+#!/bin/bash
+#Перенос в другую ветку
+#Пример перевода объекта из ветки Users в ветку Pride
+#mv_DN "CN=simba" "CN=Users" "OU=Pride"
+#(Объект не должен содержать подчиненных)
+usr_mv_DN(){
+cat <<EOF >$tmpfile
+dn: $1,$2,DC=$domain,$base
+changetype: modrdn
+newrdn: $1
+deleteoldrdn: 1
+newsuperior: $3,DC=$domain,$base
+EOF
+usr_app || echo НЕ выполнен перевод $1 ИЗ $2 В $3
+}
+

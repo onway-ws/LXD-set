@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#Применить изменения объекта в LDAP
+usr_app() {
+err=0
+lxc file push --mode=644 ./$tmpfile       $container/root/$tmpfile
+lxc exec $container -- ldbmodify -H /var/lib/samba/private/sam.ldb \
+   /root/$tmpfile  || err=1    #>/dev/null 2>&1  || err=1
+lxc exec $container rm /root/$tmpfile
+rm ./$tmpfile
+return $err
+}
+

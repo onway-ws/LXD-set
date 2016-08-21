@@ -1,0 +1,38 @@
+#!/bin/bash
+. lib/usr_app
+. lib/usr_mv_DN
+. lib/usr_add_OU
+. lib/usr_add_GR
+. lib/usr_add_US
+
+domain=wd
+tmpfile=tmp
+container=dc1
+base='DC=hd,DC=onway,DC=ws'
+
+#СЛУЖЕБНЫЕ ГРУППЫ
+OU='CN=Users'; USRGRP=10000;
+#add_GR 10001 'Domain Admins' 'Администраторы' 'Администраторы домена'
+#add_GR 10000 'Domain Users'  'Пользователи'   'Пользователи домена'
+
+#АДМИНИСТРАТОРЫ
+OU='OU=Admins'; DS=/bin/bash; PS=Qwert12
+usr_add_OU $OU 'Администраторы'
+usr_add_US 10002 Onway           "Onway"
+
+
+#OU='OU=Pride'
+#add_GR 10002 'Fin'  'Финансы'   'Отдел финансов'
+#add_GR 10003 'Mark' 'Маркетинг' 'Отдел маркетинга'
+
+
+usr_add_OU "OU=Fin ОТДЕЛ" "Отдел Финансов"
+echo $OU
+usr_add_OU "OU=Отдел Маркетига" "Реклама и т.в.т. "
+usr_add_GR 22222 "Реклмные Гномы" "Группа Риска" "Вакансия Белоснежки"
+
+DS=/bin/bash; PS=Qwert12
+
+usr_add_US 23333 "Timon" "Timon"
+usr_add_US 23334 "Pumba" "Pumba"
+

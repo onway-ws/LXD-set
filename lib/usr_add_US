@@ -1,0 +1,79 @@
+#!/bin/bash
+
+usr_add_US(){
+
+local UID_NUMBER=${1}
+local NAME=${2}
+local GIVEN_NAME=${3}
+local MAIL_ADDRESS=${4:-'no'}
+local TELEPHONE_NUMBER=${5:-0}
+local USROU=${6:-$OU}
+local GID_NUMBER=${7:-$USRGRP}
+local LOGIN_SHELL=${8:-$DS}
+local PASS=${9:-$PS}
+local HomeDir="\\\\$container\\home\\$NAME"
+local DN="CN=$NAME,$USROU,DC=$domain,$base"
+
+echo add user $NAME -----------------------------------------------------------
+
+cat <<EOF >$tmpfile
+samba-tool user create '$NAME' '$PASS' \
+--must-change-at-next-login \
+--userou='$USROU' \
+--uid='$NAME' \
+--uid-number=$UID_NUMBER \
+--gid-number=$GID_NUMBER \
+--given-name='$NAME' \
+--gecos='$GIVEN_NAME' \
+--login-shell='$LOGIN_SHELL' \
+--home-drive=U \
+--home-directory='$HomeDir'  \
+--unix-home='/home/$NAME' \
+--mail-address='$MAIL_ADDRESS' \
+--telephone-number='$TELEPHONE_NUMBER' \
+--nis-domain=$domain
+EOF
+
+lxc file push --mode=700 ./$tmpfile     $container/root/$tmpfile
+lxc exec $container /root/$tmpfile
+lxc exec $container -- rm /root/$tmpfile
+rm ./$tmpfile
+
+#---------------------------------------------------------
+#usr_mv_DN "CN=$NAME" "CN=Users" "$USROU"
+#---------------------------------------------------------
+
+cat <<EOF >$tmpfile
+dn: $DN
+changetype: modify
+replace: displayName
+displayName:: $(base64 <<< $GIVEN_NAME)
+replace: givenName
+givenName:: $(base64 <<< $GIVEN_NAME)
+replace: gecos
+gecos:: $(base64 <<< $GIVEN_NAME)
+replace: homeDirectory
+homeDirectory:: $(base64 <<< $HomeDir)
+replace: homeDrive
+homeDrive: U
+replace: mail
+mail: $MAIL_ADDRESS
+replace: uid
+uid:: $(base64 <<< $NAME)
+replace: uidNumber
+uidNumber: $UID_NUMBER
+replace: gidNumber
+gidNumber: $GID_NUMBER
+replace: loginShell
+loginShell:: $(base64 <<< $LOGIN_SHELL)
+replace: unixHomeDirectory
+unixHomeDirectory::  $(base64 <<< /home/$NAME)
+replace: msSFU30NisDomain
+msSFU30NisDomain: $domain
+replace: msSFU30Name
+msSFU30Name:: $(base64 <<< $NAME)
+EOF
+
+usr_app || echo не изменен $NAME
+
+}

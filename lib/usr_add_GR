@@ -1,0 +1,44 @@
+#!/bin/bash
+usr_add_GR(){
+err=0
+local GID_NUMBER=${1}
+local NAME=${2}
+local DESCRIPTION=${3}
+local NOTES=${4}
+local GROUPOU=${5:-$OU}
+local DN="CN=$NAME,$GROUPOU,DC=$domain,$base"
+
+cat <<EOF >$tmpfile
+samba-tool group add '$NAME' \
+--group-scope=Global --group-type=Security \
+--description='$DESCRIPTION' \
+--groupou='$GROUPOU' \
+--gid-number=$GID_NUMBER \
+--nis-domain=$domain \
+--notes='$NOTES'
+EOF
+
+lxc file push --mode=700 ./$tmpfile     $container/root/$tmpfile
+lxc exec $container --  /root/$tmpfile  >/dev/null 2>&1 || err=1
+lxc exec $container -- rm /root/$tmpfile
+rm ./$tmpfile
+
+if [[ $err = 1 ]]; then
+cat <<EOF >$tmpfile
+dn: $DN
+changetype: modify
+replace: description
+description:: $(base64 <<< $DESCRIPTION)
+replace: info
+info:: $(base64 <<< $NOTES)
+replace: msSFU30Name
+msSFU30Name:: $(base64 <<< $NAME)
+replace: msSFU30NisDomain
+msSFU30NisDomain: $domain
+replace: gidNumber
+gidNumber: $GID_NUMBER
+EOF
+usr_app || echo ошибка группы $NAME
+fi
+}
+
