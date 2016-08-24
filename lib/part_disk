@@ -1,0 +1,19 @@
+#!/bin/bash
+# ls /dev/disk/by-id/*
+# TD=BIOS #[BIOS|UEFI] # loader type
+# M1=/dev/disk/by-id/ata-WDC_WD5000AAKX-001CA0_WD-WMAYUN835784
+
+part_disk() {
+if [[ $TD = BIOS ]]; then
+sgdisk -a1 -n2:34:2047  -t2:EF02 $2
+sgdisk     -n3:-8M:0    -t3:BF07 $2
+sgdisk     -n1:0:0      -t1:BF01 $2
+elif [[ $TD = UEFI ]]; then
+sgdisk     -n2:1M:+512M -t2:EF00 $2
+sgdisk     -n3:-8M:0    -t3:BF07 $2
+sgdisk     -n1:0:0      -t1:BF01 $2
+else
+echo TD not defined
+exit 1
+fi
+}
