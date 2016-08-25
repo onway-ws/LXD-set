@@ -13,22 +13,27 @@ TD=BIOS #[BIOS|UEFI] 	# loader type
 DS1=/dev/disk/by-id/ata-WDC_WD5000AAKX-001CA0_WD-WMAYUN835784	#ID disk1
 #DS2=								#ID disk2
 
-if [[ $1 = 1 ]]; then   	# see ID disk
-apt-add-repository universe
-apt update
-apt install -y gdisk mdadm
+if [[ $1 ]]; then   	# see ID disk
 echo "set DISK-ID to var DC1 -------------------------------------------"
 ls /dev/disk/by-id/*
 echo "set  name network interface to var NI ----------------------------"
 cat /proc/net/dev
+
+
+echo "./hs 1   # part disk"
+echo "./hs 2   # system preparation"
+
 exit
 
-elif [[ $1 = 2 ]]; then		# partitions
+elif [[ $1 = 1 ]]; then		# partitions
+apt-add-repository universe
+apt update
+apt install -y gdisk mdadm
 
 part_disk $DS1
 # part_disk $DS2
 
-elif [[ $1 = 3 ]]; then		# set host system
+elif [[ $1 = 2 ]]; then		# set host system
 
 # mirror
 #zpool_greate $PN $DS1 $DS2
