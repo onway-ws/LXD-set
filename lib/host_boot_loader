@@ -1,0 +1,16 @@
+#!/bin/bash
+host_boot_loader() {
+
+if [[ $TD = BIOS ]]; then
+
+grub-install $1
+
+elif [[ $TD = UEFI ]]; then
+
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ubuntu --recheck --no-floppy
+
+else
+echo TD not defined
+exit 1
+fi
+}
