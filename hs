@@ -1,6 +1,6 @@
 #!/bin/bash
 . lib/part_disk
-. lib/zpool_create
+. lib/zpool_greate
 . lib/host_system_inst
 . lib/host_system_net
 . lib/host_system_mount_vfs
@@ -15,7 +15,7 @@ DS1=/dev/disk/by-id/ata-WDC_WD5000AAKX-001CA0_WD-WMAYUN835784	#ID disk1
 
 if [[ $1 = 1 ]]; then   	# see ID disk
 apt-add-repository universe
-apt update
+apt-get update
 apt install -y gdisk mdadm
 echo "set DISK-ID to var DC1 -------------------------------------------"
 ls /dev/disk/by-id/*
