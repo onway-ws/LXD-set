@@ -1,17 +1,9 @@
 #!/bin/bash
-#time
-ln -fs /usr/share/zoneinfo/Europe/Moscow /etc/localtime
-dpkg-reconfigure -f noninteractive tzdata
-#locale
-locale-gen ru_RU.utf8
-dpkg-reconfigure -f noninteractive locales
-update-locale LANG=ru_RU.UTF8
- 
-#locale -a
-#dpkg-reconfigure locales
+locale -a
+dpkg-reconfigure locales
 dpkg-reconfigure console-setup
 dpkg-reconfigure keyboard-configuration
-#dpkg-reconfigure tzdata
+dpkg-reconfigure tzdata
  
 cat<<EOF >/etc/apt/sources.list
 deb http://archive.ubuntu.com/ubuntu xenial main universe
@@ -34,3 +26,4 @@ apt install -y zfs-initramfs
 useradd -m $USERNAME -c "sudo user" -s /bin/bash  # new username 
 echo -e "$PASS\n$PASS\n" | passwd $USERNAME # password username 
 usermod -aG sudo $USERNAME # add username in sudo group
+exit
