@@ -67,5 +67,12 @@ host_boot_loader $DS1
 
 ls /boot/grub/*/zfs.mod
 exit
+
+elif [[ $1 = 4 ]]; then  
+
+echo unmount all filesystems
+mount | grep -v zfs | tac | awk '/\/mnt/ {print $3}' | xargs -i{} umount -lf {}
+zpool export $PN
+
 fi
 
