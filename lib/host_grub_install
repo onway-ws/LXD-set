@@ -9,9 +9,9 @@ elif [[ $TD = UEFI ]]; then
 #DS1=/dev/disk/by-id/ata-WDC_WD30EZRX-22D8PB0_WD-WCC4N1LURJNZ
  
 apt install -y dosfstools
-mkdosfs -F 32 -n EFI $DS1-part2
+mkdosfs -F 32 -n EFI $1-part2
 mkdir /boot/efi
-echo PARTUUID=$(blkid -s PARTUUID -o value $DS1) /boot/efi vfat defaults 0 1 >> /etc/fstab
+echo PARTUUID=$(blkid -s PARTUUID -o value $1) /boot/efi vfat defaults 0 1 >> /etc/fstab
 mount /boot/efi
 apt install -y grub-efi-amd64
 
