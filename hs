@@ -8,6 +8,7 @@
 . lib/host_grub_install
 . lib/ch
 . lib/host_boot_loader
+. lib/host_system_swap
 
 PN=t1                	# zpool name
 HN=t1                	# host name
@@ -74,7 +75,14 @@ elif [[ $1 = 4 ]]; then
 echo unmount all filesystems
 mount | grep -v zfs | tac | awk '/\/mnt/ {print $3}' | xargs -i{} umount -lf {}
 zpool export $PN
+echo reboot your system!
+
+elif [[ $1 = 5 ]]; then   #final step
+
+host_system_swap $PN
+apt full-upgrade -y
+apt install ubuntu-standard
 
 fi
-echo OK!
+echo OK! $1
 
