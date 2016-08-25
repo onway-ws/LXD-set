@@ -1,0 +1,8 @@
+#!/bin/bash
+host_system_mount_vfs() {
+mount --rbind /dev  /mnt/dev
+mount --rbind /proc /mnt/proc
+mount --rbind /sys  /mnt/sys
+ 
+chroot /mnt /bin/bash --login
+}
