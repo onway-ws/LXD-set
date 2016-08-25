@@ -3,6 +3,10 @@ host_system_mount_vfs() {
 mount --rbind /dev  /mnt/dev
 mount --rbind /proc /mnt/proc
 mount --rbind /sys  /mnt/sys
- 
+
+echo "EXEC ---------------------------------------------"
+echo "cd tmp"
+echo "apt install -y git nano" 
+echo "git clone https://github.com/onway-ws/LXD-set
 chroot /mnt /bin/bash --login
 }
