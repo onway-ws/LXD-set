@@ -81,7 +81,7 @@ elif [[ $1 = 5 ]]; then   #final step
 
 host_system_swap $PN
 apt full-upgrade -y
-apt install ubuntu-standard
+apt install -y ubuntu-standard
 
 fi
 echo OK! $1
