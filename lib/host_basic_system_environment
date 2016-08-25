@@ -1,4 +1,5 @@
 #!/bin/bash
+host_basic_system_environment() {
 locale -a
 dpkg-reconfigure locales
 dpkg-reconfigure console-setup
@@ -26,4 +27,4 @@ apt install -y zfs-initramfs
 useradd -m $USERNAME -c "sudo user" -s /bin/bash  # new username 
 echo -e "$PASS\n$PASS\n" | passwd $USERNAME # password username 
 usermod -aG sudo $USERNAME # add username in sudo group
-exit
+}
