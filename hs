@@ -5,6 +5,7 @@
 . lib/host_system_net
 . lib/host_system_mount_vfs
 . lib/host_basic_system_environment
+. lib/host_grub_install
 
 PN=t1                	# zpool name
 HN=t1                	# host name
