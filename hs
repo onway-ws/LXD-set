@@ -15,7 +15,7 @@ DS1=/dev/disk/by-id/ata-WDC_WD5000AAKX-001CA0_WD-WMAYUN835784	#ID disk1
 
 if [[ $1 = 1 ]]; then   	# see ID disk
 apt-add-repository universe
-apt-get update
+apt update
 apt install -y gdisk mdadm
 echo "set DISK-ID to var DC1 -------------------------------------------"
 ls /dev/disk/by-id/*
@@ -25,8 +25,8 @@ exit
 
 elif [[ $1 = 2 ]]; then		# partitions
 
-part_disk $M1
-ls /dev/disk/by-id/*
+part_disk $DS1
+# part_disk $DS2
 
 elif [[ $1 = 3 ]]; then		# set host system
 
