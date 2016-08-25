@@ -7,6 +7,7 @@
 . lib/host_basic_system_environment
 . lib/host_grub_install
 . lib/ch
+. lib/host_boot_loader
 
 PN=t1                	# zpool name
 HN=t1                	# host name
@@ -55,5 +56,16 @@ elif [[ $1 = 3 ]]; then		# install base system in chroot
 host_basic_system_environment
 host_grub_install
 
+FN=/etc/default/grub
+
+ch $FN "GRUB_HIDDEN_TIMEOUT=0" "#GRUB_HIDDEN_TIMEOUT=0"
+ch $FN "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash\"" "GRUB_CMDLINE_LINUX_DEFAULT=\"\""
+ch $FN "#GRUB_TERMINAL=console" "GRUB_TERMINAL=console"
+update-grub
+
+host_boot_loader
+
+ls /boot/grub/*/zfs.mod
+exit
 fi
 
