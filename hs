@@ -13,7 +13,7 @@ TD=BIOS #[BIOS|UEFI] 	# loader type
 DS1=/dev/disk/by-id/ata-WDC_WD5000AAKX-001CA0_WD-WMAYUN835784	#ID disk1
 #DS2=								#ID disk2
 
-if [[ $1 ]]; then   	# see ID disk
+if [[ ! $1 ]]; then   	# see ID disk
 echo "set DISK-ID to var DC1 -------------------------------------------"
 ls /dev/disk/by-id/*
 echo "set  name network interface to var NI ----------------------------"
