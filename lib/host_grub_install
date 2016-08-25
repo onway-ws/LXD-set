@@ -19,4 +19,11 @@ else
 echo TD not defined
 exit 1
 fi
+
+echo-----------------------------------------------------------------------------------------
+echo zfs
+grub-probe /
+echo-----------------------------------------------------------------------------------------
+echo "update-initramfs: Generating /boot/initrd.img-4.4.0-21-generic"
+update-initramfs -c -k all
 }
