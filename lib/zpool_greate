@@ -1,0 +1,38 @@
+#!/bin/bash
+zpool_greate() {
+apt install -y debootstrap zfs-initramfs
+ 
+if [[ $3 ]]
+then
+zpool create -o ashift=12 \
+-O atime=off \
+-O canmount=off \
+-O compression=lz4 \
+-O normalization=formD \
+-O mountpoint=/ \
+-R /mnt \
+$1 mirror $2-part1 $3-part1
+else
+zpool create -o ashift=12 \
+-O atime=off \
+-O canmount=off \
+-O compression=lz4 \
+-O normalization=formD \
+-O mountpoint=/ \
+-R /mnt \
+$1 $2-part1 
+fi
+#монтировка разделов
+zfs create -o canmount=off -o mountpoint=none $1/ROOT
+zfs create -o canmount=noauto -o mountpoint=/ $1/ROOT/ubuntu
+zfs mount $1/ROOT/ubuntu
+ 
+zfs create                 -o setuid=off              $1/home
+zfs create -o mountpoint=/root                        $1/home/root
+zfs create -o canmount=off -o setuid=off  -o exec=off $1/var
+zfs create -o com.sun:auto-snapshot=false             $1/var/cache
+zfs create                                            $1/var/log
+zfs create                                            $1/var/spool
+zfs create -o com.sun:auto-snapshot=false -o exec=on  $1/var/tmp
+zfs list
+}
