@@ -51,6 +51,7 @@ host_system_mount_vfs
 elif [[ $1 = 3 ]]; then		# install base system in chroot 
 
 host_basic_system_environment
+host_grub_install
 
 fi
 
