@@ -2,8 +2,10 @@
 zpool_greate() {
 apt install -y debootstrap zfs-initramfs
 
+# previous installation to remove
 zpool destroy -f $1  
-
+rm -r /mnt/*
+ 
 if [[ $3 ]]
 then
 zpool create -o ashift=12 \
