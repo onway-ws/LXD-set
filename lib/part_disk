@@ -4,14 +4,18 @@
 # M1=/dev/disk/by-id/ata-WDC_WD5000AAKX-001CA0_WD-WMAYUN835784
 
 part_disk() {
+
+sgdisk -Z $1
+mdadm --zero-superblock --force $1
+
 if [[ $TD = BIOS ]]; then
-sgdisk -a1 -n2:34:2047  -t2:EF02 $2
-sgdisk     -n3:-8M:0    -t3:BF07 $2
-sgdisk     -n1:0:0      -t1:BF01 $2
+sgdisk -a1 -n2:34:2047  -t2:EF02 $1
+sgdisk     -n3:-8M:0    -t3:BF07 $1
+sgdisk     -n1:0:0      -t1:BF01 $1
 elif [[ $TD = UEFI ]]; then
-sgdisk     -n2:1M:+512M -t2:EF00 $2
-sgdisk     -n3:-8M:0    -t3:BF07 $2
-sgdisk     -n1:0:0      -t1:BF01 $2
+sgdisk     -n2:1M:+512M -t2:EF00 $1
+sgdisk     -n3:-8M:0    -t3:BF07 $1
+sgdisk     -n1:0:0      -t1:BF01 $1
 else
 echo TD not defined
 exit 1
