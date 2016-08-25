@@ -54,7 +54,7 @@ host_system_mount_vfs
 elif [[ $1 = 3 ]]; then		# install base system in chroot 
 
 host_basic_system_environment
-host_grub_install
+host_grub_install $DS1
 
 FN=/etc/default/grub
 
@@ -63,7 +63,7 @@ ch $FN "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash\"" "GRUB_CMDLINE_LINUX_DEFAULT
 ch $FN "#GRUB_TERMINAL=console" "GRUB_TERMINAL=console"
 update-grub
 
-host_boot_loader
+host_boot_loader $DS1
 
 ls /boot/grub/*/zfs.mod
 exit
