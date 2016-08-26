@@ -9,17 +9,40 @@
 . lib/ch
 . lib/host_boot_loader
 . lib/host_system_swap
+. lib/host_system_net_brige
+. lib/host_LXD
 
+#------------------------------------------------------------------------
+# ZPOOL
 PN=t1                	# zpool name
-HN=t1                	# host name
-WG=WG			# work group
-NI=enp2s0             	# name network interface (see # cat /proc/net/dev)
 TD=BIOS #[BIOS|UEFI] 	# loader type
 DS1=/dev/disk/by-id/ata-WDC_WD5000AAKX-001CA0_WD-WMAYUN835784	#ID disk1
 #DS2=								#ID disk2
 #add Admin in new system
 USERNAME=sv
 PASS=1
+
+#------------------------------------------------------------------------
+# NETWORK
+HN=t1                	# host name
+WG=WG					# work group
+NI=enp2s0             	# name network interface (see # cat /proc/net/dev)
+
+static=yes				# static interface
+# for static
+n_address="10.0.0.190"			#"192.168.0.44"
+n_netmask="255.255.255.0"		#"255.255.255.0"
+n_network="10.0.0.0"			#"192.168.0.0"
+n_broadcast="10.0.0.255"		#"192.168.0.255"
+n_gateway="10.0.0.253"			#"192.168.0.1"
+# dns-* options are implemented by the resolvconf package, if installed
+n_nameservers="8.8.8.8 8.8.4.4" #google-dns
+n_search=$WG
+# bridge options
+n_bridge_ports=$NI
+
+#------------------------------------------------------------------------
+# MAIN
 
 if [[ ! $1 ]]; then   	# see ID disk
 echo "set DISK-ID to var DC1 -------------------------------------------"
@@ -50,9 +73,9 @@ elif [[ $1 = 2 ]]; then		# set host system
 zpool_greate $PN $DS1
 
 host_system_inst $PN
-host_system_net $HN $WG $NI
+host_system_net 				# network setup
 host_system_mount_vfs
-elif [[ $1 = 3 ]]; then		# install base system in chroot 
+elif [[ $1 = 3 ]]; then			# install base system in chroot 
 
 host_basic_system_environment
 host_grub_install $DS1
@@ -83,6 +106,10 @@ host_system_swap $PN
 apt full-upgrade -y
 apt install -y ubuntu-standard
 
-fi
-echo OK! $1
+#LXD
+host_system_net_brige
+host_LXD
 
+fi
+
+echo OK! $1
