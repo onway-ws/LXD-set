@@ -3,7 +3,18 @@
 host_LXD() {
 
 echo install LXD
-apt install -y lxd zfsutils-linux
+apt install -y lxd
+
+echo Name of the storage backend to use (dir or zfs): zfs
+echo Create a new ZFS pool (yes/no)? no
+echo Name of the existing ZFS pool or dataset: $PN
+echo Would you like LXD to be available over the network (yes/no)? no
+Do you want to configure the LXD bridge (yes/no)? yes
+#Warning: Stopping lxd.service, but it can still be activated by:
+#  lxd.socket
+#LXD has been successfully configured.
+
+
 
   
 }
