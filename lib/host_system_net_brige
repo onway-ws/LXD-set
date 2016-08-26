@@ -1,6 +1,6 @@
 #!/bin/bash
 host_system_net_brige() {
-        
+
 if [[ yes = $static ]]; then        
 	apt install -y bridge-utils
 	cat<<EOF >/mnt/etc/network/interfaces.d/$NI
