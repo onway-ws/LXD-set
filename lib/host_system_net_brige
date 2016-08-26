@@ -1,9 +1,11 @@
 #!/bin/bash
 host_system_net_brige() {
-
-cat<<EOF >/mnt/etc/network/interfaces.d/$3
-auto br0 
-iface br0 inet static
+        
+if [[ yes = $static ]]; then        
+	apt install -y bridge-utils
+	cat<<EOF >/mnt/etc/network/interfaces.d/$3
+	auto br0 
+	iface br0 inet static
         address $n_address
         netmask $n_netmask
         network $n_network
@@ -14,6 +16,7 @@ iface br0 inet static
         dns-search $n_search
         # bridge options
         bridge_ports $n_bridge_ports
-iface $n_bridge_ports inet manual
-EOF
+	iface $n_bridge_ports inet manual
+	EOF
+fi
 }
