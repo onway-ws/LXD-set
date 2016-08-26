@@ -1,0 +1,3 @@
+#!/bin/bash
+echo install LXD
+apt install -y lxd zfsutils-linux bridge-utils
