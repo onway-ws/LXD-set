@@ -102,7 +102,7 @@ echo reboot your system!
 
 elif [[ $1 = 5 ]]; then   #final step
 
-host_system_swap $PN
+#host_system_swap $PN
 apt full-upgrade -y
 apt install -y ubuntu-standard
 
