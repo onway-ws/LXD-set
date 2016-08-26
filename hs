@@ -36,7 +36,7 @@ n_network="10.0.0.0"			#"192.168.0.0"
 n_broadcast="10.0.0.255"		#"192.168.0.255"
 n_gateway="10.0.0.253"			#"192.168.0.1"
 # dns-* options are implemented by the resolvconf package, if installed
-n_nameservers="8.8.8.8 8.8.4.4" #google-dns
+n_nameservers="10.0.0.253 8.8.8.8 8.8.4.4" #google-dns
 n_search=$WG
 # bridge options
 n_bridge_ports=$NI
