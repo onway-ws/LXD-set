@@ -15,4 +15,7 @@ echo "Do you want to configure the LXD bridge (yes/no)? yes"
 #  lxd.socket
 #LXD has been successfully configured.
 
+lxd init
+
+
 }
