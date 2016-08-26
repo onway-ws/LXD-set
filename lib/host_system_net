@@ -10,28 +10,9 @@ ff02::1         ip6-allnodes
 ff02::2         ip6-allrouters
 EOF
  
-#dhcp
-#cat<<EOF >/mnt/etc/network/interfaces.d/$3
-#auto $3
-#iface $3 inet dhcp
-#EOF
-
-#static
+dhcp
 cat<<EOF >/mnt/etc/network/interfaces.d/$3
-auto br0 
-iface br0 inet static
-address 192.168.0.44
-        netmask 255.255.255.0
-        network 192.168.0.0
-        broadcast 192.168.0.255
-        gateway 192.168.0.1
-        # dns-* options are implemented by the resolvconf package, if installed
-        dns-nameservers 8.8.8.8 8.8.4.4 #google-dns
-        dns-search localdomain.local #optional-line
-        # bridge options
-        bridge_ports $3
-iface $3 inet manual
+auto $3
+iface $3 inet dhcp
 EOF
- 
 }
-
