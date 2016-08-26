@@ -1,9 +1,10 @@
 host_system_swap() {
-# size swap 4G
+# size swap 8G
 zfs create -V 4G -b $(getconf PAGESIZE) -o compression=zle \
       -o logbias=throughput -o sync=always \
       -o primarycache=metadata -o secondarycache=none \
       -o com.sun:auto-snapshot=false $1/swap
 mkswap -f /dev/zvol/$1/swap
 echo /dev/zvol/$1/swap none swap defaults 0 0 >> /etc/fstab
+swapon -av
 }
