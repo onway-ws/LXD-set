@@ -5,7 +5,7 @@ if [[ yes = $static ]]; then
 	
 apt install -y bridge-utils
 	
-cat<<EOF >/mnt/etc/network/interfaces.d/$NI
+cat<<EOF >/etc/network/interfaces.d/$NI
 auto br0 
 iface br0 inet static
         address $n_address
