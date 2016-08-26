@@ -1,18 +1,18 @@
 #!/bin/bash
 host_system_net() {
-echo $1> /mnt/etc/hostname
+echo $HN> /mnt/etc/hostname
  
 cat<<EOF >/mnt/etc/hosts
 127.0.0.1       localhost
-127.0.0.1       $1 $1.$2
+127.0.0.1       $HN $HN.$WG
 ::1             localhost ip6-localhost ip6-loopback
 ff02::1         ip6-allnodes
 ff02::2         ip6-allrouters
 EOF
  
 dhcp
-cat<<EOF >/mnt/etc/network/interfaces.d/$3
-auto $3
-iface $3 inet dhcp
+cat<<EOF >/mnt/etc/network/interfaces.d/$NI
+auto $NI
+iface $NI inet dhcp
 EOF
 }
