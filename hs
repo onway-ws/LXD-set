@@ -83,7 +83,7 @@ host_grub_install $DS1
 FN=/etc/default/grub
 
 ch $FN "GRUB_HIDDEN_TIMEOUT=0" "#GRUB_HIDDEN_TIMEOUT=0"
-ch $FN "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash\"" "GRUB_CMDLINE_LINUX_DEFAULT=\"swapaccount=1 quiet splash\""
+ch $FN "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash\"" "GRUB_CMDLINE_LINUX_DEFAULT=\"swapaccount=1\""
 ch $FN "#GRUB_TERMINAL=console" "GRUB_TERMINAL=console"
 update-grub
 
